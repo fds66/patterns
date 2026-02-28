@@ -1,1 +1,1 @@
-python3 main.py
+python3 main.py ./test_knitting_patterns_table__patterns_input.csv -s "3 Color Cashmere Shawl"
