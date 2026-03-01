@@ -1,2 +1,7 @@
 __pycache__/
 test_knitting_patterns_table__patterns_input.csv
+content/
+docs/
+public/
+examples_from_static_site/
+static/
