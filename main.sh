@@ -1,1 +1,1 @@
-python3 ./src/main.py ./inputs/test_knitting_patterns_table__patterns_input.csv -s "3 Color Cashmere Shawl"
+python3 ./src/main.py knit ./inputs/test_knitting_patterns_table__patterns_input.csv -s "3 Color Cashmere Shawl" -t "Shawl"

@@ -1,13 +1,30 @@
 from enum import Enum
 
 
+
 class CraftType(Enum):
     KNIT = "knitting pattern"
     SEW = "sewing pattern"
 
 
 class PatternType(Enum):
-    JUMPER = ""
+    NECK = "Shawl/Scarf/Cowl"
+    SOCKS = "Socks"
+    HATS = "Hats"
+    BOOK = "Book"
+    CHILD = "Baby/Child"
+    JUMPER = "Cardigan/Jumper"
+    CHARTS = "Charts" 
+    DOG = "Dog"
+    GLOVES = "Gloves/Mitts"
+    HOUSEHOLD = "Household/Decorations"
+    TOYS = "Toys"
+    MULTI = "Multi"
+    DRESS = "Dress"
+    GEN = "General instructions or notes"
+    LEGGINGS = "Leggings"
+    
+
 
 
 
@@ -31,6 +48,7 @@ class KnittingPattern(Pattern):
     def __init__(self,name,keys,attributes):
         super().__init__(name,keys,attributes)
         self.designer = attributes[keys[2]]
+        
         self.pattern_type = attributes[keys[3]]
         self.date_added = attributes[keys[4]]
         self.notes = attributes[keys[5]]

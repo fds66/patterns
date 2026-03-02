@@ -101,5 +101,40 @@ def make_pattern_dictionarys(keys,parsed_lists):
 
     # return a list of all the dictionarys
     return dictionarys
+
+# convert the command line argument into an Enum pattern type in PatternType
+def convert_pattern_type(ptype_string):
+    #print(f"converting pattern type from input string to a PatternType")
+    for t in PatternType:
+        this_type = t.value
+       # print (this_type, ptype_string)
+        if ptype_string in this_type:
+            print(f"Success, found {ptype_string} in {this_type}")
+            return t
+    else:
+        print(f"Error converting requested string to PatternType")
+        return 0
+            
         
+    
+        
+
+'''
+    class PatternType(Enum):
+    NECK = "Shawl/Scarf/Cowl"
+    SOCKS = "Socks"
+    HATS = "Hats"
+    BOOK = "Book"
+    CHILD = "Baby/Child"
+    JUMPER = "Cardigan/Jumper"
+    CHARTS = "Charts" 
+    DOG = "Dog"
+    GLOVES = "Gloves/Mitts"
+    HOUSEHOLD = "Household/Decorations"
+    TOYS = "Toys"
+    MULTI = "Multi"
+    DRESS = "Dress"
+    GEN = "General instructions or notes"
+    LEGGINGS = "Leggings"
+'''   
 

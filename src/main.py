@@ -1,75 +1,46 @@
 import argparse
 from enum import Enum
 
-from input_processing import read_csv_file,extract_keys,make_pattern_dictionarys,create_dictionarys_from_csv
+from input_processing import read_csv_file,extract_keys,make_pattern_dictionarys,create_dictionarys_from_csv, convert_pattern_type
 from pattern_classes import PatternType,Pattern,KnittingPattern,CraftType
 from make_pattern_obj import separate_patterns,make_knitting_pattern_obj
+from print_outputs import print_summary_all, print_result_search, print_result_type
 
 def main():
 
-
-
-
-    # knitting pattern keys
-    '''
-    0 Name,
-    1 Designer,
-    2 Rollup_designer,
-    3 Type,
-    4 Date_added,
-    5 Notes,
-    6 Attachments,
-    7 Number_of_Attachments,
-    8 Image.png?,
-    9 Attachment_filenames_regex,
-    10 Batch_attachment_archive_in_dropbox,
-    11 RecordId,
-    12 Status,
-    13 Projects,
-    14 Projects_from_rollup,
-    15 Paper_folder,
-    16 Project_completed_need_to_record,
-    17 Checked_file_into_subcategory,
-    18 Dropbox_link,
-    19 Projects_3,
-    20 Last_modified,
-    21 Google_sheet_sync,
-    22 Unsaved_changes,
-    
-    '''
+    # Process commandline arguments so they are available
 
     parser = argparse.ArgumentParser(description="Pattern library search and summarise")
-    parser.add_argument("csv_filepath", type=str, help="relative filepath to the csv file")
-    #parser.add_argument("craft_type"), type = CraftType, help = "KNIT or SEW"
+    #Required
+    parser.add_argument("craft_type", type = str,  help = "knit or sew")
+    parser.add_argument("csv_filepath", type=str,  help="relative filepath to the csv file from the root")
+    #Optional
     parser.add_argument("-s","--Search_name", type = str, help = "the name of the pattern you are searching for")
+    parser.add_argument("-t","--Search_ptype", type = str, help = "the category of pattern you are searching for")
     parser.add_argument("-a","--all", action='store_true',help = "output summaries of all patterns")
     args = parser.parse_args()
 
-    '''
-    # Add an optional argument with choices
-    parser.add_argument('--color', choices=['red', 'green', 'blue'], help='choose a color')
-
-    # Parse the arguments
-    args = parser.parse_args()
-
-    # Use the optional argument
-    if args.color:
-    print(f"You chose the color: {args.color}")
-
-    compulsory
-    parser.add_argument('--use-lang', required=True, help="Output language")
+   
+# Now we can access `args.csv_filepath` and craft_type
     
-    '''
 
+    craft_type = args.craft_type
+    match(craft_type):
 
-# Now we can access `args.user_prompt`
+        case "knit":
+            craft = CraftType.KNIT
+        case "sew":
+            craft = CraftType.SEW
+        case _:
+            raise Exception ("first argument should be either knit or sew")
+        
+    
     filepath = args.csv_filepath
     if not filepath:
         raise Exception ("No csv filepath given")
     print (filepath)
-   
-
-    #filepath = "./test_knitting_patterns_table__patterns_input.csv"
+    
+    # now we can parse the csv and create the list of keys and the list of pattern dictionarys, one dictionary for each pattern
 
     keys,dictionarys = create_dictionarys_from_csv(filepath)
     # to get list of keys use this section
@@ -79,31 +50,38 @@ def main():
         print(f"{i} {key},")
         i+=1
     '''
+
+    # convert the pattern dictionarys into pattern objects
+
     knitting_objs = separate_patterns(keys,dictionarys)
+    #will add in the sewing option later
+    #if KNIT pattern_objs = knitting_objs, if SEW pattern_objs = sewing_obs
 
-
-
+    pattern_objs = knitting_objs
     #############################################################
-    #Outputs
+    # simple print outputs
     
     #to print summary of all
     if args.all is True:
-        print(f"These are the summaries of all the patterns")
-        for obj in knitting_objs:
-            print (obj.attribute_summary())
-            print (obj.images())
-            print()
+        print_summary_all(pattern_objs)
 
     
-
+    # to search for a pattern name
     if args.Search_name:
         search_term = args.Search_name
-        print (f"This is the result of a search for {search_term} pattern:\n")
-        for obj in knitting_objs:
-            if obj.name == search_term:
-                print (obj.attribute_summary())
-                print (obj.images())
-                print()
+        print_result_search(pattern_objs, search_term)
+
+    # to search for a pattern type
+    #print (f"access the enum value by .value {PatternType.GLOVES.value}")
+    
+    
+    if args.Search_ptype:
+        pattern_type = args.Search_ptype
+        matching_objs = print_result_type(pattern_objs, pattern_type)
+        print(f"There were {len(matching_objs)} matches ")
+        if matching_objs:
+            for obj in matching_objs:
+                print(obj.name)
 
 
 
@@ -111,9 +89,7 @@ def main():
 
 
 
-
-
-
+    return
 
 
 
