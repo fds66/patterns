@@ -5,7 +5,7 @@ from input_processing import read_csv_file,extract_keys,make_pattern_dictionarys
 from pattern_classes import PatternType,Pattern,KnittingPattern,CraftType,Library
 from make_pattern_obj import separate_patterns,make_knitting_pattern_obj
 from print_outputs import print_summary_all, print_result_search, print_result_type
-from make_html import make_search_page, make_type_page, make_all_images_page, make_blank_page
+from make_html import make_search_page, make_type_page, make_all_images_page, make_blank_page, make_home_page, make_summary_page
 
 def main():
 
@@ -63,23 +63,34 @@ def main():
     pattern_objs = knitting_objs
 #def __init__(self,input_filepath,keys,craft_type, obj_list):
     library = Library(filepath, keys, craft_type, pattern_objs)
+
+
     #############################################################
     # simple print outputs and html static pages
     # setup the file paths
     template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
     output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
     output_files={
-        "text": "text.html",
+        "text": "info.html",
         "single": "pattern_search.html",
         "multi": "type_search.html",
         "home": "index.html",
         "all": "all.html"
          }
     
+    # create home page
+
+    make_home_page(template_dir, output_dir, library, output_files)
+
+
 
     #to print summary of all
     if args.all is True:
         print_summary_all(pattern_objs)
+
+    make_summary_page(template_dir, output_dir, library, output_files)   
+
+    
 
     # to search for a pattern name
     if args.Search_name:

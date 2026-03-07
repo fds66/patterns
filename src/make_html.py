@@ -1,5 +1,5 @@
 import os
-from pattern_classes import Pattern, Library, KnittingPattern
+from pattern_classes import Pattern, Library, KnittingPattern,CraftType
 from print_outputs import print_result_search, print_result_type
 
 
@@ -14,7 +14,10 @@ def make_blank_page(template_dir, output_directory, library, output_files, blank
     make_html_file(template_dir, output_directory, library, library.obj_list, page_type, output_files, blank=True)
 
 def make_home_page(template_dir, output_directory, library, output_files):
-    pass
+    result = make_html_file(template_dir, output_directory, library, library.obj_list, "home",output_files)
+    if result:
+        print(f"home page successfully made")
+    
 
 def make_all_images_page(template_dir, output_directory, library, output_files):
     result = make_html_file(template_dir, output_directory, library, library.obj_list, "all",output_files)
@@ -51,8 +54,10 @@ def make_type_page(template_dir, output_directory, library, search_term, output_
 
     return
 
-def make_summary_page():
-    pass
+def make_summary_page(template_dir, output_directory, library, output_files):
+    result = make_html_file(template_dir, output_directory, library, library.obj_list, "text",output_files)
+    if result:
+        print(f"information page successfully made")
     
 
 
@@ -99,7 +104,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
     else:
         raise Exception ("failed to add navigation")
 
-    print(f"full_html before body {full_html}")
+    #print(f"full_html before body {full_html}")
     ############# main body ##################################
     # switch to the right type of page  single, multi, text, front
 
@@ -113,7 +118,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
         match (page_type):
 
             case "text":
-                text_body = make_text_body_html(template_dir)
+                text_body = make_text_body_html(template_dir, library)
                 if text_body:
                     full_html.append(text_body)
                 else:
@@ -154,7 +159,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
             
             case _:
                 raise Exception ("page type not recognised")
-    print(f"full_html after body {full_html}")
+    #print(f"full_html after body {full_html}")
     ############# footer #############################
     footer = make_footer_html(template_dir)
     if footer:
@@ -168,7 +173,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
     if tail:
         full_html.append(tail)
 
-    print(f"full_html at end {full_html}")
+    #print(f"full_html at end {full_html}")
     ################# join all the components into one string#########
     full_html_string = "\n".join(full_html)
     ################ write html page #####################
@@ -340,10 +345,21 @@ def make_multi_body_html(template_dir, found_objs):
 
     return multi_body
 
-def make_text_body_html(template_dir):
+def make_text_body_html(template_dir,library):
     text_body_path = os.path.join(template_dir,"text_body.html")
     text_body = read_template_html(text_body_path)
     ## need to substitute the text then add to the html file contents
+    ordered_list_html = ""
+    for key in library.keys:
+        ordered_list_html += f'<li>{key} </li>'
+    text_body = text_body.replace('{{ordered_list}}', ordered_list_html)
+    
+    info_string =  library.info_string()
+    text_body = text_body.replace('{{main_text}}', info_string)
+
+
+
+
     return text_body
 
 def make_home_body_html(template_dir):

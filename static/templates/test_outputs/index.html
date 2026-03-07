@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patterns</title>
+    <link rel="stylesheet" href="global_style.css">
+</head>
+<body>
+<header>
+  <h1>Pattern Search</h1>
+</header>
+<nav>
+
+    
+<ul class="topnav">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="pattern_search.html">Pattern Name Search</a></li>
+  <li><a href="type_search.html">Pattern Type Search</a></li>
+  <li><a href="info.html">Information about the dataset</a></li>
+  <li><a href="all.html">All patterns in image grid</a></li>
+</ul>
+
+</nav>
+<div class="flex-container">
+  <div>
+    <h2>Keys</h2>
+    <ol>
+      {{ordered_list}}
+    </ol>
+  </div>
+
+  <div>
+    <h2>Information about the dataset</h2>
+    <p>
+      {{main_text}}
+    </p>
+    
+  </div>
+
+  <div>
+    <h2>Extras</h2>
+    <p>{{extra_info}}</p>
+  </div>  
+</div>
+<footer>
+  <p>Using Pattern Library from {{csv_name}}</p>
+</footer>
+</body>
+</html>

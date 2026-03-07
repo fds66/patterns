@@ -154,3 +154,6 @@ class Library:
 
     def __repr__(self):
         return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type.value} patterns)"
+    
+    def info_string(self):
+        return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type} patterns)"
