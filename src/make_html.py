@@ -90,8 +90,16 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
         raise Exception ("Head template not read")
     #print(f"full_html {full_html}")
     ############ header #############################
-
-    header = make_header_html(template_dir, library)
+    
+    header_strings = {
+        "text": "Library Information",
+        "single": "Pattern Search",
+        "multi": "Pattern Type Search",
+        "home": "Home",
+        "all": "Library Image Grid"
+         }
+    header_text = header_strings[page_type]
+    header = make_header_html(template_dir, header_text)
     if header:
         full_html.append(header)
     else:
@@ -161,7 +169,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
                 raise Exception ("page type not recognised")
     #print(f"full_html after body {full_html}")
     ############# footer #############################
-    footer = make_footer_html(template_dir)
+    footer = make_footer_html(template_dir, library)
     if footer:
         full_html.append(footer)
     else:
@@ -243,13 +251,13 @@ def make_head_html(template_dir):
     ## need to substitute the heading then add to the html file contents
     return head
 
-def make_header_html(template_dir, library):
+def make_header_html(template_dir, header_text):
     header_path = os.path.join(template_dir,"header.html")
     header = read_template_html(header_path)
 
     ## need to substitute the heading then add to the html file contents
     if header:
-        header_text = f"Pattern Search"
+        
         header = header.replace("{{header_info}}", header_text)
         
     return header
@@ -341,6 +349,8 @@ def make_multi_body_html(template_dir, found_objs):
 
     pattern_string = "\n".join(patterns)
     multi_body = outer_body.replace("{{patterns}}", pattern_string)
+    summary_string = f"There were {len(found_objs)} matches"
+    multi_body = multi_body.replace("{{result_summary}}", summary_string)
     
 
     return multi_body
@@ -369,10 +379,12 @@ def make_home_body_html(template_dir):
     return home_body
 
 
-def make_footer_html(template_dir):
+def make_footer_html(template_dir, library):
     footer_path = os.path.join(template_dir,"footer.html")
     footer = read_template_html(footer_path)
     ## need to substitute the heading then add to the html file contents
+    csv_path = library.csv_string()
+    footer = footer.replace ("{{csv_name}}",csv_path)
     return footer
 
 def make_tail_html(template_dir):

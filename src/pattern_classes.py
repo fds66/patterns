@@ -156,4 +156,7 @@ class Library:
         return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type.value} patterns)"
     
     def info_string(self):
-        return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type} patterns)"
+        return f"Library from {self.input_filepath} contains {self.number} {self.craft_type} patterns"
+    
+    def csv_string(self):
+        return f'{self.input_filepath}'
