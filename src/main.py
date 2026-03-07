@@ -5,9 +5,11 @@ from input_processing import read_csv_file,extract_keys,make_pattern_dictionarys
 from pattern_classes import PatternType,Pattern,KnittingPattern,CraftType,Library
 from make_pattern_obj import separate_patterns,make_knitting_pattern_obj
 from print_outputs import print_summary_all, print_result_search, print_result_type
-from make_html import make_search_page, make_type_page, make_all_images_page
+from make_html import make_search_page, make_type_page, make_all_images_page, make_blank_page
 
 def main():
+
+    
 
     # Process commandline arguments so they are available
 
@@ -66,6 +68,14 @@ def main():
     # setup the file paths
     template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
     output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
+    output_files={
+        "text": "text.html",
+        "single": "pattern_search.html",
+        "multi": "type_search.html",
+        "home": "index.html",
+        "all": "all.html"
+         }
+    
 
     #to print summary of all
     if args.all is True:
@@ -75,7 +85,10 @@ def main():
     if args.Search_name:
         search_term = args.Search_name
         print(f"searching for {search_term}\n")
-        make_search_page(template_dir, output_dir, library, search_term)
+        make_search_page(template_dir, output_dir, library, search_term, output_files)
+    #otherwise make a blank page
+    else:
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_search")
 
       
 
@@ -90,14 +103,18 @@ def main():
         if matching_objs:
             for obj in matching_objs:
                 print(obj.name)
-        make_type_page(template_dir, output_dir, library, pattern_type)
-
+        make_type_page(template_dir, output_dir, library, pattern_type, output_files)
+    #otherwise make a blank page
+    else:
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_type_search")
 
 
     ############testing html generation#################
     # print all in a grid to test the image strings
 
-    make_all_images_page(template_dir, output_dir, library)
+    make_all_images_page(template_dir, output_dir, library, output_files)
+
+    #make_blank_page(template_dir, output_dir, library, output_files, "blank_search")
 
     
 

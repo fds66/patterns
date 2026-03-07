@@ -2,99 +2,34 @@ import os
 from pattern_classes import Pattern, Library, KnittingPattern
 from print_outputs import print_result_search, print_result_type
 
-'''
-def generate_page(from_path, template_path, dest_path, basepath):
-    #print(f"Generating page from {from_path} to {dest_path} using {template_path}")
-    try:
-        with open(from_path,"r") as f:
-            content = f.read()
-    except Exception as e:
-        raise Exception (f"{from_path} cannot be read, error {e}")
-    
-    try:
-        with open(template_path) as g:
-            template = g.read()
-    except Exception as e:
-        raise Exception (f"{template_path} cannot be read, error {e}")
-    
-    # process the markdown content into html
-    html_nodes = markdown_to_html_node(content)
-    #pprint.pprint(f"html nodes {html_nodes}")
-    html_content = html_nodes.to_html()
-    #print (html_content)
-    #extract the title
-    title = extract_title(content)
 
-    #insert the title and contents into the template 
-    full_html = template.replace("{{ Title }}",title)
-    full_html = full_html.replace("{{ Content }}",html_content)
-    new_href_str = f'href="{basepath}'
-    full_html = full_html.replace('href="/',new_href_str)
-    new_src_str = f'src="{basepath}'
-    full_html = full_html.replace('src="/',new_src_str)
-    
-    #print(full_html)
+def make_blank_page(template_dir, output_directory, library, output_files, blank_type):
+    page_type_lookup = {
+        "blank_search": "single",
+        "blank_type_search": "multi",
+        "blank_all": "all",
 
-    #If the destination doesn't exist then create it
-    try:
-        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
-        with open(dest_path, 'w') as file:
-            file.write(full_html)
-            return
+    }
+    page_type = page_type_lookup[blank_type]
+    make_html_file(template_dir, output_directory, library, library.obj_list, page_type, output_files, blank=True)
 
-
-    except Exception as e:
-        raise Exception ("writing to the file failed")
-    
-
-
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
-    content_list = os.listdir(dir_path_content)
-    print(content_list)
-
-    #crawl every entry in the content directory
-
-    for item in content_list:
-        item_path = os.path.join(dir_path_content,item)
-        dest_path = os.path.join(dest_dir_path,item)
-        if os.path.isfile(item_path):
-            print (f"{item} is a file")
-            file_name, file_extension = os.path.splitext(item)
-            if file_extension == ".md":
-                print ("this is a markdown file")
-                print(f"new file will be {file_name} with .html added")
-                html_file_name = file_name + ".html"
-                html_file_path = os.path.join(dest_dir_path,html_file_name)
-                print (html_file_name, html_file_path)
-                generate_page(item_path,template_path, html_file_path, basepath)
-            else:
-                continue
-        if os.path.isdir(item_path):
-            print(f"{item} is a directory")
-            print(f"destination path is {dest_path}")
-            generate_pages_recursive(item_path, template_path, dest_path, basepath)
-    #for each markdown file found, generate a new .html file using the same template
-    #write the generated pages to the public directory in the same directory structure
-    #generate_page(from_path, template_path, dest_path)
-
-'''
-def make_home_page():
+def make_home_page(template_dir, output_directory, library, output_files):
     pass
 
-def make_all_images_page(template_dir, output_directory, library):
-    result = make_html_file(template_dir, output_directory, library, library.obj_list, "all")
+def make_all_images_page(template_dir, output_directory, library, output_files):
+    result = make_html_file(template_dir, output_directory, library, library.obj_list, "all",output_files)
     if result:
         print(f"all image pages successfully made")
 
 
-def make_search_page(template_dir, output_directory, library, search_term):
+def make_search_page(template_dir, output_directory, library, search_term, output_files):
     # to search for a pattern name
     found_objs = []
     found_obj = print_result_search(library.obj_list, search_term)
     found_objs.append(found_obj)
     page_type = "single"
     if found_objs:
-        success = make_html_file(template_dir, output_directory, library, found_objs, page_type)
+        success = make_html_file(template_dir, output_directory, library, found_objs, page_type,output_files)
         if success:
             print (f"HTML search page successfully made")
     else:
@@ -102,13 +37,13 @@ def make_search_page(template_dir, output_directory, library, search_term):
 
     return
 
-def make_type_page(template_dir, output_directory, library, search_term):
+def make_type_page(template_dir, output_directory, library, search_term, output_files):
      # to search for a pattern type
     
     found_objs = print_result_type(library.obj_list, search_term)
     page_type = "multi"
     if found_objs:
-        success = make_html_file(template_dir, output_directory, library, found_objs, page_type)
+        success = make_html_file(template_dir, output_directory, library, found_objs, page_type,output_files)
         if success:
             print (f"HTML type search page successfully made")
     else:
@@ -121,7 +56,7 @@ def make_summary_page():
     
 
 
-def make_html_file(template_dir, output_dir, library, found_obj, page_type,):
+def make_html_file(template_dir, output_dir, library, found_obj, page_type, output_files, blank=False):
 ################## rename the found obj to be found_objs or found_obj list and check if its a list
     if not os.path.isdir(template_dir):
         raise Exception ("template directory given is not a directory")
@@ -131,6 +66,8 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type,):
         raise Exception ("no library")
     if not found_obj:
         raise Exception ("no object found in search")
+    if not type(found_obj) is list:
+        raise Exception ("found object must be a list")
 
     #need to check the inputs are valid - not empty, is a directory, etc add a slash if necessary(use os.path.join instead)
     # maybe move this to functions and create a list of sections to be passed in turn
@@ -162,72 +99,80 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type,):
     else:
         raise Exception ("failed to add navigation")
 
-    #print(f"full_html {full_html}")
+    print(f"full_html before body {full_html}")
     ############# main body ##################################
     # switch to the right type of page  single, multi, text, front
 
-    match (page_type):
+    if blank is True:
+        blank_body = make_blank_body(template_dir)
+        if blank_body:
+            full_html.append(blank_body)
+        else:
+            raise Exception ("failed to add text page")
+    else:
+        match (page_type):
 
-        case "text":
-            text_body = make_text_body_html(template_dir)
-            if text_body:
-                full_html.append(text_body)
-            else:
-                raise Exception ("failed to add text page")
+            case "text":
+                text_body = make_text_body_html(template_dir)
+                if text_body:
+                    full_html.append(text_body)
+                else:
+                    raise Exception ("failed to add text page")
+                    
+
+            case "single":
+                
+                single_body = make_single_body_html(template_dir, found_obj)
+                if single_body:
+                    full_html.append(single_body)
+                else:
+                    raise Exception ("failed to add single page")
                 
 
-        case "single":
-            
-            single_body = make_single_body_html(template_dir, found_obj)
-            if single_body:
-                full_html.append(single_body)
-            else:
-                raise Exception ("failed to add single page")
-            
+            case "multi":
+                multi_body = make_multi_body_html(template_dir, found_obj)
+                if multi_body:
+                    full_html.append(multi_body)
+                else:
+                    raise Exception ("failed to add multi pattern page")
+                
 
-        case "multi":
-            multi_body = make_multi_body_html(template_dir, found_obj)
-            if multi_body:
-                full_html.append(multi_body)
-            else:
-                raise Exception ("failed to add multi pattern page")
+            case "home":
+                home_body = make_home_body_html(template_dir)
+                if home_body:
+                    full_html.append(home_body)
+                else:
+                    raise Exception ("failed to add home page")
+                
+            case "all":
+                all_body = make_multi_body_html(template_dir,found_obj)
+                if all_body:
+                    full_html.append(all_body)
+                else:
+                    raise Exception ("failed to add all images page")
+                
             
-
-        case "home":
-            home_body = make_home_body_html(template_dir)
-            if home_body:
-                full_html.append(home_body)
-            else:
-                raise Exception ("failed to add home page")
-            
-        case "all":
-            all_body = make_multi_body_html(template_dir,found_obj)
-            if all_body:
-                full_html.append(all_body)
-            else:
-                raise Exception ("failed to add all images page")
-            
-        
-        case _:
-            raise Exception ("page type not recognised")
-
+            case _:
+                raise Exception ("page type not recognised")
+    print(f"full_html after body {full_html}")
     ############# footer #############################
     footer = make_footer_html(template_dir)
     if footer:
         full_html.append(footer)
     else:
-        raise Exception ("failed to footer")    
+        raise Exception ("failed to footer")   
+    
     ############# tail ###############################
 
     tail = make_tail_html(template_dir)
     if tail:
         full_html.append(tail)
 
-
+    print(f"full_html at end {full_html}")
     ################# join all the components into one string#########
     full_html_string = "\n".join(full_html)
     ################ write html page #####################
-
+    '''
     match page_type:
 
         case "text":
@@ -252,10 +197,11 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type,):
         case _:
             raise Exception ("page type not recognised")
 
-
+    '''
 
 
     #test_output = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs/test.html"
+    html_file_name = output_files[page_type]
     output_path = os.path.join(output_dir, html_file_name)
     result = write_html_file(output_path,full_html_string)
     if result == "Successful":
@@ -417,6 +363,11 @@ def make_tail_html(template_dir):
     tail_path = os.path.join(template_dir,"tail.html")
     tail = read_template_html(tail_path)
     return tail
+
+def make_blank_body(template_dir):
+    blank_body_path = os.path.join(template_dir,"blank_body.html")
+    blank_body = read_template_html(blank_body_path)
+    return blank_body
 
 
 
