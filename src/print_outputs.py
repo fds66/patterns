@@ -15,8 +15,11 @@ def print_result_search(pattern_objs, search_term):
     print (f"This is the result of a search for {search_term} pattern:\n")
     for obj in pattern_objs:
         if obj.name == search_term:
-            print_output(obj)
-    return
+            found_obj = obj
+            print_output(found_obj)
+    return found_obj        
+           
+    
 
 # to search for a pattern type
 def print_result_type(pattern_objs, p_type):

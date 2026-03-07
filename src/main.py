@@ -2,9 +2,10 @@ import argparse
 from enum import Enum
 
 from input_processing import read_csv_file,extract_keys,make_pattern_dictionarys,create_dictionarys_from_csv, convert_pattern_type
-from pattern_classes import PatternType,Pattern,KnittingPattern,CraftType
+from pattern_classes import PatternType,Pattern,KnittingPattern,CraftType,Library
 from make_pattern_obj import separate_patterns,make_knitting_pattern_obj
 from print_outputs import print_summary_all, print_result_search, print_result_type
+from make_html import make_search_page, make_type_page, make_all_images_page
 
 def main():
 
@@ -58,18 +59,25 @@ def main():
     #if KNIT pattern_objs = knitting_objs, if SEW pattern_objs = sewing_obs
 
     pattern_objs = knitting_objs
+#def __init__(self,input_filepath,keys,craft_type, obj_list):
+    library = Library(filepath, keys, craft_type, pattern_objs)
     #############################################################
-    # simple print outputs
-    
+    # simple print outputs and html static pages
+    # setup the file paths
+    template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
+    output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
+
     #to print summary of all
     if args.all is True:
         print_summary_all(pattern_objs)
 
-    
     # to search for a pattern name
     if args.Search_name:
         search_term = args.Search_name
-        print_result_search(pattern_objs, search_term)
+        print(f"searching for {search_term}\n")
+        make_search_page(template_dir, output_dir, library, search_term)
+
+      
 
     # to search for a pattern type
     #print (f"access the enum value by .value {PatternType.GLOVES.value}")
@@ -82,12 +90,16 @@ def main():
         if matching_objs:
             for obj in matching_objs:
                 print(obj.name)
+        make_type_page(template_dir, output_dir, library, pattern_type)
 
 
 
+    ############testing html generation#################
+    # print all in a grid to test the image strings
 
+    make_all_images_page(template_dir, output_dir, library)
 
-
+    
 
     return
 

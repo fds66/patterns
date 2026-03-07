@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patterns</title>
+    <link rel="stylesheet" href="global_style.css">
+</head>
+<body>
+<header>
+  <h1>{{header_info}}</h1>
+</header>
+<nav>
+
+    
+<ul class="topnav">
+  <li><a href="#">Home</a></li>
+  <li><a href="#">Pattern Name Search</a></li>
+  <li><a href="#">Pattern Type Search</a></li>
+  <li><a href="#">Information about the dataset</a></li>
+</ul>
+
+</nav>
+<body>
+    <div class="flex-container">
+ 
+  <div class="single_card">
+    <div class = "card">
+      <img src = "image/img_one.png">
+      <div class="content">
+      <h2>{{Pattern_Name}}</h2>
+      <p>{{main_text}}</p>
+      <a href="">pattern link</a>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h2>Extras</h2>
+    <p>{{extra_info}}</p>
+  </div>  
+</div>
+</body>
+<footer>
+  <p>Using Pattern Library from {{csv_name}}</p>
+</footer>
+</body>
+</html>

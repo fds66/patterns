@@ -1,10 +1,11 @@
 from enum import Enum
+import os
 
 
 
 class CraftType(Enum):
-    KNIT = "knitting pattern"
-    SEW = "sewing pattern"
+    KNIT = "knitting"
+    SEW = "sewing"
 
 
 class PatternType(Enum):
@@ -53,9 +54,10 @@ class KnittingPattern(Pattern):
         self.date_added = attributes[keys[4]]
         self.notes = attributes[keys[5]]
         self.num_attach = attributes[keys[7]]
-        self.attachments = attributes[keys[6]]
-        self.attachment_regex = attributes[keys[9]]
+        
+        self.attachments = attributes[keys[9]]
         self.attachment_batch = attributes[keys[10]]
+        self.dropbox_link = attributes[keys[18]]
         
 
     '''
@@ -93,8 +95,62 @@ attributes:
 
         return f'{self.name} by {self.designer} has a type {self.pattern_type}, '
     
+    def list_of_properties(self):
+         # This produces a set of properties that will be printed out
+         prop_list = []
+         prop_list.append(f"Designer: {self.designer}")
+         pattern_type = self.pattern_type
+         pattern_type = pattern_type.replace(",",", ")
+         prop_list.append(pattern_type)
+         prop_list.append(self.notes)
+         prop_list.append(f'number of attachments: {self.num_attach}')
+         
+         return prop_list
+    
     def images(self):
         
-        return f'There are {self.num_attach} attachments stored in {self.attachment_batch}\nThe attachments are {self.attachment_regex}'
-        
+        return f'There are {self.num_attach} attachments stored in {self.attachment_batch}\nThe attachments are {self.attachments}'
+    
+    def make_image_strings(self):
+        #print(f"method raw is {self.attachments}")
+        raw_strings = self.attachments.split(",")
+        #print(f"method raw after splitting {raw_strings}")
+        modified_strings = []
+        for raw_string in raw_strings:
+            # remove all spaces and removed symbols so filenames match
+            raw_string = raw_string.strip()
+            raw_string = raw_string.replace(" ","")
+            raw_string = raw_string.replace('"','')
+            raw_string = raw_string.replace("'",'')
+            raw_string = raw_string.replace("&",'')
+            modified_strings.append(raw_string)
+            
+        batch = self.make_batch_folder_name()
+        num_attach = int(self.num_attach)
+        image_strings=[]
 
+                
+        for i in range(num_attach):
+
+            image_strings.append(f'<img src = "image/{os.path.join(batch,modified_strings[i])}">')
+        #print (f"method return image strings {image_strings}")   
+        return image_strings
+        
+    def make_batch_folder_name(self):
+        batch_folder_name = self.attachment_batch
+        batch_folder_name = batch_folder_name.replace(":","_")
+        return batch_folder_name
+
+class Library:
+     # name is text, keys is a list, attributes is a dictionary with key,value pairs
+    def __init__(self,input_filepath,keys,craft_type, obj_list):
+        
+        self.input_filepath = input_filepath
+        self.keys = keys
+        self.craft_type = craft_type
+        self.number = len(obj_list)
+        self.obj_list = obj_list
+
+
+    def __repr__(self):
+        return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type.value} patterns)"

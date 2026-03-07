@@ -4,4 +4,9 @@ content/
 docs/
 public/
 examples_from_static_site/
-static/
+static/images
+static/templates/external_research
+static/templates/image
+static/templates/prototyping
+inputs
+static/templates/test_outputs/image
