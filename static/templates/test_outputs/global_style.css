@@ -6,9 +6,25 @@
 }
 
 body {
+  display:flex;
+  flex-direction: column;
   margin: 0;
   padding: 0;
-  padding-bottom: 50px;
+  padding-bottom: 50px;  
+  
+}
+.home-page {
+  /* background-image: radial-gradient(lightblue,darkblue);*/
+ /* background-image: url("image/AdobeStock_584539861.jpeg");*/
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url("image/AdobeStock_584539861.jpeg");
+  
+  background-position: center;
+  
 }
 
 header {
@@ -16,12 +32,21 @@ header {
   padding: 10px;
   text-align: center;
 }
-.home_page_heading{
+main{
+  flex: 1;
+}
+.home-page-heading{
+  display: grid;
+  place-items: center;
   
-
-  padding-top: 50px;
+  color: lightblue;
+  
   text-align: center;
   font-size: 2.5rem;
+  
+}
+.home-page-heading h2{
+  padding-top: 25vh;
 }
 
 /* Style the topnav */
@@ -223,6 +248,7 @@ footer {
   padding: 8px;
   text-align: center;
   z-index: 1000;
+  
 }
 
 /* Use media query and show the 3 columns vertically if screen width is less than 600px 

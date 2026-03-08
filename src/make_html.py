@@ -211,7 +211,9 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
             raise Exception ("page type not recognised")
 
     '''
-
+    # to put background on homepage only
+    if page_type == "home":
+        full_html_string = full_html_string.replace('<body','<body class="home-page">')
 
     #test_output = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs/test.html"
     html_file_name = output_files[page_type]

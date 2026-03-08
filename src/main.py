@@ -10,6 +10,38 @@ from make_html import make_search_page, make_type_page, make_all_images_page, ma
 def main():
 
     
+    # setup the file paths and parameters
+    template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
+    output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
+    output_files={
+        "text": "info.html",
+        "single": "pattern_search.html",
+        "multi": "type_search.html",
+        "home": "index.html",
+        "all": "all.html"
+         }
+    image_file_dir = "/image/"
+    library_name = "Knitting Patterns"
+
+
+
+
+################# need to add image_file_dir into parameters to be passed along########
+
+# pattern class method uses it as an input
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # Process commandline arguments so they are available
 
@@ -64,22 +96,13 @@ def main():
 
 
     # create library
-    library_name = "Knitting Patterns"
+    
     library = Library(filepath, keys, craft_type, pattern_objs, library_name)
 
 
     #############################################################
     # simple print outputs and html static pages
-    # setup the file paths
-    template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
-    output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
-    output_files={
-        "text": "info.html",
-        "single": "pattern_search.html",
-        "multi": "type_search.html",
-        "home": "index.html",
-        "all": "all.html"
-         }
+    
     
     
     # create home page
@@ -92,7 +115,9 @@ def main():
     if args.all is True:
         print_summary_all(pattern_objs)
 
-    make_summary_page(template_dir, output_dir, library, output_files)   
+        make_summary_page(template_dir, output_dir, library, output_files) 
+    else:
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_all")  
 
     
 
