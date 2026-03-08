@@ -110,7 +110,7 @@ def main():
     make_home_page(template_dir, output_dir, library, output_files)
 
 
-
+################################### need to sort this out##################
     #to print summary of all
     if args.all is True:
         print_summary_all(pattern_objs)
@@ -119,7 +119,7 @@ def main():
     else:
         make_blank_page(template_dir, output_dir, library, output_files, "blank_all")  
 
-    
+ ######################################################################################   
 
     # to search for a pattern name
     if args.Search_name:
