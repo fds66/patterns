@@ -370,15 +370,18 @@ def make_text_body_html(template_dir,library):
     text_body_path = os.path.join(template_dir,"text_body.html")
     text_body = read_template_html(text_body_path)
     ## need to substitute the text then add to the html file contents
-    ordered_list_html = ""
+    key_list_html = ""
     for key in library.keys:
-        ordered_list_html += f'<li>{key} </li>'
-    text_body = text_body.replace('{{ordered_list}}', ordered_list_html)
+        key_list_html += f'<li>{key} </li>'
+    text_body = text_body.replace('{{key_list}}', key_list_html)
     
     info_string =  library.info_string()
     text_body = text_body.replace('{{main_text}}', info_string)
 
-
+    type_list_html = ""
+    for t in library.types:
+        type_list_html += f'<li>{t} </li>'
+    text_body = text_body.replace('{{type_list}}', type_list_html)
 
 
     return text_body

@@ -115,30 +115,103 @@ div.flex-container {
   justify-content: center;
   
   gap: 10px;
-  
-  
-  
+  flex-wrap: wrap;
+}
 
+.flex-container li,.flex-container p {
+  overflow-wrap:break-word;
+  word-break:break-word;
+  font-size:clamp(0.9rem,1.2vw,1.2rem);
 }
 
 div.flex-container > div {
+
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   background-color: lightgray;
   border: 2px solid darkgray;
-  
+  font-size: 1.2rem;
+  min-width:0;
   margin-left: 10px;
 }
+.sidebar {
+  flex: 1 1 250px;
+  max-height: 60vh;
+}
+
+.main-panel {
+  flex: 2 1 400px;
+}
+.flex-container ol {
+  
+  max-height: 400px;
+  overflow-y: auto;
+}
+.sidebar ol {
+  columns:2;
+  column-gap:30px;
+  font-size: 0.95rem;
+  flex: 1;
+  padding-right: 10px
+}
+.sidebarol::-webkit-scrollbar {
+  width:6px;
+}
+
+.sidebarol::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius:3px;
+}
+.sidebar li{
+  break-inside: avoid;
+}
+
 .flex-container p{
     padding: 10px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    text-align: center;
 }
 .flex-container h2{
     
     font-size: 2rem;
 }
+@media (max-width: 700px) {
+
+  .flex-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .main-panel {
+    order: 1;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+  .sidebar ol {
+    columns:1;
+  }
+  .sidebar li {
+  break-inside:avoid;
+}
+   .flex-containerh2 {
+    font-size:1.5rem;
+  }
+
+  .flex-containerp,
+  .flex-containerli {
+    font-size:1rem;
+  }
+  .sidebar ol {
+  font-size:0.95rem;
+}
+
+}
+
 
 /* Style the footer */
 footer {

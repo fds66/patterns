@@ -156,6 +156,8 @@ attributes:
             return_string += link_string_html
             
         return return_string
+    
+    
 
 
 
@@ -173,13 +175,17 @@ class Library:
         self.number = len(obj_list)
         self.obj_list = obj_list
         self.name = name
+        self.types = list({p.pattern_type for p in self.obj_list})
 
 
     def __repr__(self):
         return f"Library from ({self.input_filepath} contains {self.number} {self.craft_type.value} patterns)"
     
     def info_string(self):
-        return f"Library from {self.input_filepath} contains {self.number} {self.craft_type} patterns"
+        return f"Name:  {self.name}<br><br>contains {self.number} {self.craft_type} patterns<br><br>csv filepath:    {self.input_filepath}"
     
     def csv_string(self):
         return f'{self.input_filepath}'
+    
+    def make_types_list(self):
+        return list({p.pattern_type for p in self.obj_list})
