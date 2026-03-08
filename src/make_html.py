@@ -283,13 +283,14 @@ def make_single_body_html(template_dir, found_obj):
     
     image_strings = obj.make_image_strings()
     #print (f" in single pattern the image_strings is {image_strings} type {type(image_strings)}")
-    all_images_tag = '{{images}}' # into single_pattern_body
+    
     image_tag = '{{image_path}}'    # into pattern_only
     all_image_string = ''
     html_strings = []
     for image_string in image_strings:
         single_image_html = inner_body.replace(image_tag,image_string)
         single_image_html = single_image_html.replace("{{text}}","")
+        single_image_html = single_image_html.replace("{{pattern_link}}","")
         html_strings.append(single_image_html)
     all_image_string = "\n".join(html_strings)
 
@@ -297,7 +298,7 @@ def make_single_body_html(template_dir, found_obj):
 
 
 
-
+    all_images_tag = '{{images}}' # into single_pattern_body
     single_body = single_body.replace(all_images_tag,all_image_string)
     # list of properties
     main_text = ""
@@ -305,6 +306,10 @@ def make_single_body_html(template_dir, found_obj):
     for prop in prop_list:
         main_text += f'<p>{prop}</p>'
     single_body = single_body.replace("{{main_text}}",main_text)
+    link_string = obj.make_dropbox_links_html()
+    single_body = single_body.replace("{{dropbox_pattern_link}}",link_string)
+    
+
     return single_body
 
 def make_multi_body_html(template_dir, found_objs):
@@ -332,7 +337,11 @@ def make_multi_body_html(template_dir, found_objs):
     <div class="pattern">
         {{image_path}}
         <p>{{text}}</p>
+        <a>{{pattern_link}}</a>
     </div>
+
+
+    <a href="index.html">Home</a> {{pattern_link}}
     '''
     ## need to substitute the text then add to the html file contents
     # repeat the inner template and then insert between the outer template
@@ -345,6 +354,8 @@ def make_multi_body_html(template_dir, found_objs):
         image_strings = obj.make_image_strings()
         obj_string = obj_string.replace("{{image_path}}",image_strings[0])
         obj_string = obj_string.replace("{{text}}",obj.name)
+        link_string = f'<a href="#">Pattern Details</a>'
+        obj_string = obj_string.replace("{{pattern_link}}",link_string)
         patterns.append(obj_string)
 
     pattern_string = "\n".join(patterns)
@@ -383,8 +394,8 @@ def make_footer_html(template_dir, library):
     footer_path = os.path.join(template_dir,"footer.html")
     footer = read_template_html(footer_path)
     ## need to substitute the heading then add to the html file contents
-    csv_path = library.csv_string()
-    footer = footer.replace ("{{csv_name}}",csv_path)
+    library_name = library.name
+    footer = footer.replace ("{{csv_name}}",library_name)
     return footer
 
 def make_tail_html(template_dir):

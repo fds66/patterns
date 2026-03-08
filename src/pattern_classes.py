@@ -104,6 +104,7 @@ attributes:
          prop_list.append(pattern_type)
          prop_list.append(self.notes)
          prop_list.append(f'number of attachments: {self.num_attach}')
+         #prop_list.append(f'{self.make_dropbox_links_html()}')
          
          return prop_list
     
@@ -140,16 +141,38 @@ attributes:
         batch_folder_name = self.attachment_batch
         batch_folder_name = batch_folder_name.replace(":","_")
         return batch_folder_name
+    
+    def make_dropbox_links_html(self):
+        dropbox_link_string = self.dropbox_link
+        print (dropbox_link_string)
+        link_strings = dropbox_link_string.split()
+        print (link_strings)
+        return_string = ""
+        counter = 1
+        for link_string in link_strings:
+            
+            link_string_html = f'<a href="{link_string}">Pattern Link {counter}</a>\n'
+            counter += 1
+            return_string += link_string_html
+            
+        return return_string
+
+
+
+
+
+
 
 class Library:
      # name is text, keys is a list, attributes is a dictionary with key,value pairs
-    def __init__(self,input_filepath,keys,craft_type, obj_list):
+    def __init__(self,input_filepath,keys,craft_type, obj_list, name):
         
         self.input_filepath = input_filepath
         self.keys = keys
         self.craft_type = craft_type
         self.number = len(obj_list)
         self.obj_list = obj_list
+        self.name = name
 
 
     def __repr__(self):

@@ -61,8 +61,11 @@ def main():
     #if KNIT pattern_objs = knitting_objs, if SEW pattern_objs = sewing_obs
 
     pattern_objs = knitting_objs
-#def __init__(self,input_filepath,keys,craft_type, obj_list):
-    library = Library(filepath, keys, craft_type, pattern_objs)
+
+
+    # create library
+    library_name = "Knitting Patterns"
+    library = Library(filepath, keys, craft_type, pattern_objs, library_name)
 
 
     #############################################################
@@ -77,6 +80,7 @@ def main():
         "home": "index.html",
         "all": "all.html"
          }
+    
     
     # create home page
 
