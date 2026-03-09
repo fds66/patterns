@@ -6,13 +6,20 @@ from print_outputs import print_result_search, print_result_type
 def make_blank_page(template_dir, output_directory, library, output_files, blank_type):
     print(f'executing make_blank_page')
     page_type_lookup = {
-        "blank_search": "single",
-        "blank_type_search": "multi",
-        "blank_all": "all",
+        "blank_search_no_result": "single",
+        "blank_type_search_no_result": "multi",
+        "blank_all_no_result": "all",
+        "blank_search_no_request": "single",
+        "blank_type_search_no_request": "multi",
+        "blank_all_no_request": "all",
 
     }
+    if "no_request" in blank_type:
+        blank_reason = "no_request"
+    else:
+        blank_reason = "no_result"
     page_type = page_type_lookup[blank_type]
-    make_html_file(template_dir, output_directory, library, library.obj_list, page_type, output_files, blank=True)
+    make_html_file(template_dir, output_directory, library, library.obj_list, page_type, output_files, blank_reason)
 
 def make_home_page(template_dir, output_directory, library, output_files):
     result = make_html_file(template_dir, output_directory, library, library.obj_list, "home",output_files)
@@ -39,7 +46,7 @@ def make_search_page(template_dir, output_directory, library, search_term, outpu
             print (f"HTML search page successfully made")
     else:
         print (f"No match found")
-        make_html_file(template_dir, output_directory, library, library.obj_list, page_type,output_files, blank=True)
+        make_blank_page(template_dir, output_directory, library, output_files, "blank_search_no_result")
 
     return
 
@@ -54,7 +61,7 @@ def make_type_page(template_dir, output_directory, library, search_term, output_
             print (f"HTML type search page successfully made")
     else:
         print (f"No match found")
-        make_html_file(template_dir, output_directory, library, library.obj_list, page_type,output_files, blank=True)
+        make_blank_page(template_dir, output_directory, library, output_files, "blank_type_search_no_result")
 
     return
 
@@ -66,7 +73,7 @@ def make_summary_page(template_dir, output_directory, library, output_files):
     
 
 
-def make_html_file(template_dir, output_dir, library, found_objs, page_type, output_files, blank=False):
+def make_html_file(template_dir, output_dir, library, found_objs, page_type, output_files, blank=""):
     print(f'executing make_html_file')
 
     if not os.path.isdir(template_dir):
@@ -122,8 +129,16 @@ def make_html_file(template_dir, output_dir, library, found_objs, page_type, out
     ############# main body ##################################
     # switch to the right type of page  single, multi, text, front
 
-    if blank is True:
-        blank_body = make_blank_body(template_dir)
+    if blank != "":
+        match (blank):
+            case "no_request":
+                message = "No page of this type requested"
+                blank_body = make_blank_body(template_dir, message)
+            case "no_result":
+                message = "No search results"
+            case _:
+                message = ""
+        blank_body = make_blank_body(template_dir, message)        
         if blank_body:
             full_html.append(blank_body)
         else:
@@ -418,11 +433,15 @@ def make_tail_html(template_dir):
     tail = read_template_html(tail_path)
     return tail
 
-def make_blank_body(template_dir):
-    print(f'executing make_blank_body')
+def make_blank_body(template_dir, message):
+    print(f'executing make_blank_no_request_body')
     blank_body_path = os.path.join(template_dir,"blank_body.html")
     blank_body = read_template_html(blank_body_path)
+    
+    blank_body = blank_body.replace("{{reason}}", message)
     return blank_body
+
+
 
 
 

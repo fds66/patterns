@@ -118,7 +118,7 @@ def main():
         make_all_images_page(template_dir, output_dir, library, output_files)
         
     else:
-        make_blank_page(template_dir, output_dir, library, output_files, "blank_all")  
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_all_no_request")  
 
  ######################################################################################   
 
@@ -129,7 +129,7 @@ def main():
         make_search_page(template_dir, output_dir, library, search_term, output_files)
     #otherwise make a blank page
     else:
-        make_blank_page(template_dir, output_dir, library, output_files, "blank_search")
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_search_no_request")
 
       
 
@@ -147,7 +147,7 @@ def main():
         make_type_page(template_dir, output_dir, library, pattern_type, output_files)
     #otherwise make a blank page
     else:
-        make_blank_page(template_dir, output_dir, library, output_files, "blank_type_search")
+        make_blank_page(template_dir, output_dir, library, output_files, "blank_type_search_no_request")
 
 
     ############testing html generation#################
