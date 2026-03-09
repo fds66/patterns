@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+  font-size: 16;
+}
+
+body {
+  display:flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 50px;  
+  border-radius: 5px;
+  
+}
+.home-page {
+  /* background-image: radial-gradient(lightblue,darkblue);*/
+ /* background-image: url("image/AdobeStock_584539861.jpeg");*/
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url("image/AdobeStock_584539861.jpeg");
+  
+  background-position: center;
+  
+}
+
+header {
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
+}
+main{
+  flex: 1;
+}
+.home-page-heading{
+  display: grid;
+  place-items: center;
+  
+  color: lightblue;
+  
+  text-align: center;
+  font-size: 2.5rem;
+  
+}
+.home-page-heading h2{
+  padding-top: 25vh;
+}
+
+/* Style the topnav */
+ul.topnav {
+  display: flex;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #333333;
+}
+ul.topnav li:first-child{
+  margin-right:auto;
+}
+
+/* Style links in topnav */
+ul.topnav li a {
+  display: block;
+  color: #f1f1f1;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* Change color on hover */
+ul.topnav li a:hover {
+  background-color: #dddddd;
+  color: black;
+}
+.num-results p{
+  text-align: center;
+  font-size: 2rem;
+}
+
+.content-container{
+  display: flex;
+  flex-direction: column;
+  
+  padding-bottom: 20px;
+  text-align: center;
+}
+.content-container p{
+  font-size: 1.5rem;
+
+}
+.content-container h2{
+  font-size: 3rem;
+}
+
+.result-summary {
+  text-align: center;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ 
+  
+  
+  gap: 1em;
+  
+  
+  
+}
+.pattern {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  
+  overflow: hidden;
+  text-align: center;
+  font-size: 1.5rem;
+  
+  
+}
+.pattern img{
+  width: 100%;
+  height: auto;
+  
+  
+ 
+  
+  padding: 10px;
+}
+
+
+
+
+
+
+
+div.flex-container {
+  
+  display: flex;
+  flex-direction: row;
+  
+  justify-content: center;
+  
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.flex-container li,.flex-container p {
+  overflow-wrap:break-word;
+  word-break:break-word;
+  font-size:clamp(0.9rem,1.2vw,1.2rem);
+}
+
+div.flex-container > div {
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: lightgray;
+  border: 2px solid darkgray;
+  font-size: 1.2rem;
+  min-width:0;
+  margin-left: 10px;
+}
+.sidebar {
+  flex: 1 1 250px;
+  max-height: 60vh;
+}
+
+.main-panel {
+  flex: 2 1 400px;
+}
+.flex-container ol {
+  
+  max-height: 400px;
+  overflow-y: auto;
+}
+.sidebar ol {
+  columns:2;
+  column-gap:30px;
+  font-size: 0.95rem;
+  flex: 1;
+  padding-right: 10px
+}
+.sidebarol::-webkit-scrollbar {
+  width:6px;
+}
+
+.sidebarol::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius:3px;
+}
+.sidebar li{
+  break-inside: avoid;
+}
+
+.flex-container p{
+    padding: 10px;
+    font-size: 1.4rem;
+    text-align: center;
+}
+.flex-container h2{
+    
+    font-size: 2rem;
+}
+@media (max-width: 700px) {
+
+  .flex-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .main-panel {
+    order: 1;
+  }
+
+  .sidebar {
+    order: 2;
+  }
+  .sidebar ol {
+    columns:1;
+  }
+  .sidebar li {
+  break-inside:avoid;
+}
+   .flex-containerh2 {
+    font-size:1.5rem;
+  }
+
+  .flex-containerp,
+  .flex-containerli {
+    font-size:1rem;
+  }
+  .sidebar ol {
+  font-size:0.95rem;
+}
+
+}
+
+
+/* Style the footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 8px;
+  text-align: center;
+  z-index: 1000;
+  
+}
+
+/* Use media query and show the 3 columns vertically if screen width is less than 600px 
+@media screen and (max-width:600px) {
+  div.flex-container {
+    flex-direction: column;
+  }
+}*/
