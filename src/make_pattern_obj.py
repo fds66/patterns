@@ -5,7 +5,7 @@ from input_processing import read_csv_file,extract_keys, make_pattern_dictionary
 
 
 
-def separate_patterns(keys,dictionarys):
+def separate_patterns(keys,dictionarys,image_dir):
     print(f"separating {len(dictionarys)} dictionaries\n\n")
     #takes in a list of dictionarys and creates a knitting pattern object for each one
     pattern_obj_list = []
@@ -13,7 +13,7 @@ def separate_patterns(keys,dictionarys):
         #print (dictionary)
         name = dictionary[keys[0]]
         #print (name)
-        pattern_obj = make_knitting_pattern_obj(name,keys,dictionary)
+        pattern_obj = make_knitting_pattern_obj(name,keys,dictionary,image_dir)
 
         # correct the pattern type to the enum 
         #print(f"original pattern type is {pattern_obj.pattern_type}")
@@ -39,7 +39,7 @@ def separate_patterns(keys,dictionarys):
 
    
 
-def make_knitting_pattern_obj(name,keys,dict):
+def make_knitting_pattern_obj(name,keys,dict, image_dir):
     #print(f"making objects")
-    knit_obj = KnittingPattern(name,keys,dict)
+    knit_obj = KnittingPattern(name,keys,dict, image_dir)
     return knit_obj

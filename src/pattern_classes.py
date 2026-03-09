@@ -31,10 +31,11 @@ class PatternType(Enum):
 
 class Pattern:
     # name is text, keys is a list, attributes is a dictionary with key,value pairs
-    def __init__(self,name,keys,attributes):
+    def __init__(self,name,keys,attributes, image_dir="image/"):
         self.name = name
         self.attributes = attributes
         self.keys = keys
+        self.image_dir = image_dir
 
 
     def __repr__(self):
@@ -46,8 +47,8 @@ class Pattern:
 
 
 class KnittingPattern(Pattern):
-    def __init__(self,name,keys,attributes):
-        super().__init__(name,keys,attributes)
+    def __init__(self,name,keys,attributes, image_dir="image/"):
+        super().__init__(name,keys,attributes, image_dir)
         self.designer = attributes[keys[2]]
         
         self.pattern_type = attributes[keys[3]]
@@ -127,13 +128,15 @@ attributes:
             modified_strings.append(raw_string)
             
         batch = self.make_batch_folder_name()
+        batch_filepath = os.path.join(self.image_dir,batch)
         num_attach = int(self.num_attach)
         image_strings=[]
 
-                
+               
         for i in range(num_attach):
-
-            image_strings.append(f'<img src = "image/{os.path.join(batch,modified_strings[i])}">')
+            
+            image_filepath = os.path.join(batch_filepath,modified_strings[i])
+            image_strings.append(f'<img src = "{image_filepath}">')
         #print (f"method return image strings {image_strings}")   
         return image_strings
         
@@ -176,6 +179,7 @@ class Library:
         self.obj_list = obj_list
         self.name = name
         self.types = list({p.pattern_type for p in self.obj_list})
+        
 
 
     def __repr__(self):

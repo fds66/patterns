@@ -20,7 +20,7 @@ def main():
         "home": "index.html",
         "all": "all.html"
          }
-    image_file_dir = "/image/"
+    image_dir = "image/"
     library_name = "Knitting Patterns"
 
 
@@ -88,7 +88,7 @@ def main():
 
     # convert the pattern dictionarys into pattern objects
 
-    knitting_objs = separate_patterns(keys,dictionarys)
+    knitting_objs = separate_patterns(keys,dictionarys, image_dir)
     #will add in the sewing option later
     #if KNIT pattern_objs = knitting_objs, if SEW pattern_objs = sewing_obs
 
@@ -108,14 +108,15 @@ def main():
     # create home page
 
     make_home_page(template_dir, output_dir, library, output_files)
-
+    make_summary_page(template_dir, output_dir, library, output_files) 
 
 ################################### need to sort this out##################
     #to print summary of all
-    if args.all is True:
+    print(f'command line argument all {args.all}')
+    if args.all:
         print_summary_all(pattern_objs)
-
-        make_summary_page(template_dir, output_dir, library, output_files) 
+        make_all_images_page(template_dir, output_dir, library, output_files)
+        
     else:
         make_blank_page(template_dir, output_dir, library, output_files, "blank_all")  
 
@@ -152,7 +153,7 @@ def main():
     ############testing html generation#################
     # print all in a grid to test the image strings
 
-    make_all_images_page(template_dir, output_dir, library, output_files)
+    #make_all_images_page(template_dir, output_dir, library, output_files)
 
     #make_blank_page(template_dir, output_dir, library, output_files, "blank_search")
 

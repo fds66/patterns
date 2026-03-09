@@ -4,6 +4,7 @@ from print_outputs import print_result_search, print_result_type
 
 
 def make_blank_page(template_dir, output_directory, library, output_files, blank_type):
+    print(f'executing make_blank_page')
     page_type_lookup = {
         "blank_search": "single",
         "blank_type_search": "multi",
@@ -25,18 +26,20 @@ def make_all_images_page(template_dir, output_directory, library, output_files):
         print(f"all image pages successfully made")
 
 
-def make_search_page(template_dir, output_directory, library, search_term, output_files):
-    # to search for a pattern name
-    found_objs = []
-    found_obj = print_result_search(library.obj_list, search_term)
-    found_objs.append(found_obj)
+def make_search_page(template_dir, output_directory, library, search_term, output_files):   
     page_type = "single"
+    # to search for a pattern name
+    
+    found_objs = print_result_search(library.obj_list, search_term)
+    
     if found_objs:
+        
         success = make_html_file(template_dir, output_directory, library, found_objs, page_type,output_files)
         if success:
             print (f"HTML search page successfully made")
     else:
         print (f"No match found")
+        make_html_file(template_dir, output_directory, library, library.obj_list, page_type,output_files, blank=True)
 
     return
 
@@ -51,27 +54,30 @@ def make_type_page(template_dir, output_directory, library, search_term, output_
             print (f"HTML type search page successfully made")
     else:
         print (f"No match found")
+        make_html_file(template_dir, output_directory, library, library.obj_list, page_type,output_files, blank=True)
 
     return
 
 def make_summary_page(template_dir, output_directory, library, output_files):
+    print(f'executing make_summary_page')
     result = make_html_file(template_dir, output_directory, library, library.obj_list, "text",output_files)
     if result:
         print(f"information page successfully made")
     
 
 
-def make_html_file(template_dir, output_dir, library, found_obj, page_type, output_files, blank=False):
-################## rename the found obj to be found_objs or found_obj list and check if its a list
+def make_html_file(template_dir, output_dir, library, found_objs, page_type, output_files, blank=False):
+    print(f'executing make_html_file')
+
     if not os.path.isdir(template_dir):
         raise Exception ("template directory given is not a directory")
     if not os.path.isdir(output_dir):
         raise Exception ("template directory given is not a directory")
     if not library:
         raise Exception ("no library")
-    if not found_obj:
+    if not found_objs:
         raise Exception ("no object found in search")
-    if not type(found_obj) is list:
+    if not type(found_objs) is list:
         raise Exception ("found object must be a list")
 
     #need to check the inputs are valid - not empty, is a directory, etc add a slash if necessary(use os.path.join instead)
@@ -135,7 +141,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
 
             case "single":
                 
-                single_body = make_single_body_html(template_dir, found_obj)
+                single_body = make_single_body_html(template_dir, found_objs)
                 if single_body:
                     full_html.append(single_body)
                 else:
@@ -143,7 +149,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
                 
 
             case "multi":
-                multi_body = make_multi_body_html(template_dir, found_obj)
+                multi_body = make_multi_body_html(template_dir, found_objs)
                 if multi_body:
                     full_html.append(multi_body)
                 else:
@@ -158,7 +164,7 @@ def make_html_file(template_dir, output_dir, library, found_obj, page_type, outp
                     raise Exception ("failed to add home page")
                 
             case "all":
-                all_body = make_multi_body_html(template_dir,found_obj)
+                all_body = make_multi_body_html(template_dir,found_objs)
                 if all_body:
                     full_html.append(all_body)
                 else:
@@ -270,51 +276,55 @@ def make_nav_html(template_dir):
     ## need to substitute the heading then add to the html file contents
     return nav
 
-def make_single_body_html(template_dir, found_obj):
-    obj = found_obj[0]
+def make_single_body_html(template_dir, found_objs):
+    
     single_body_path = os.path.join(template_dir,"single_pattern_body.html")
-    single_body = read_template_html(single_body_path)
+    outer_body = read_template_html(single_body_path)
 
     inner_body_path = os.path.join(template_dir,"pattern_only.html")
     inner_body = read_template_html(inner_body_path)
 
      ## need to substitute the text then add to the html file contents
+     # what if there are more than one match, expand to have multiple results
      # Title
-    single_body = single_body.replace("{{Pattern_Name}}",obj.name)
+    final_body = f'<div class="num-results"><p>There are {len(found_objs)} results</p></div>'
+    for obj in found_objs:
+        single_body = outer_body.replace("{{Pattern_Name}}",obj.name)
+        
+        
+        image_strings = obj.make_image_strings()
+        #print (f" in single pattern the image_strings is {image_strings} type {type(image_strings)}")
+        
+        image_tag = '{{image_path}}'    # into pattern_only
+        all_image_string = ''
+        html_strings = []
+        for image_string in image_strings:
+            single_image_html = inner_body.replace(image_tag,image_string)
+            single_image_html = single_image_html.replace("{{text}}","")
+            single_image_html = single_image_html.replace("{{pattern_link}}","")
+            html_strings.append(single_image_html)
+        all_image_string = "\n".join(html_strings)
+
+
+
+
+
+        all_images_tag = '{{images}}' # into single_pattern_body
+        single_body = single_body.replace(all_images_tag,all_image_string)
+        # list of properties
+        main_text = ""
+        prop_list = obj.list_of_properties()
+        for prop in prop_list:
+            main_text += f'<p>{prop}</p>'
+        single_body = single_body.replace("{{main_text}}",main_text)
+        link_string = obj.make_dropbox_links_html()
+        single_body = single_body.replace("{{dropbox_pattern_link}}",link_string)
+        final_body += single_body
     
-    
-    image_strings = obj.make_image_strings()
-    #print (f" in single pattern the image_strings is {image_strings} type {type(image_strings)}")
-    
-    image_tag = '{{image_path}}'    # into pattern_only
-    all_image_string = ''
-    html_strings = []
-    for image_string in image_strings:
-        single_image_html = inner_body.replace(image_tag,image_string)
-        single_image_html = single_image_html.replace("{{text}}","")
-        single_image_html = single_image_html.replace("{{pattern_link}}","")
-        html_strings.append(single_image_html)
-    all_image_string = "\n".join(html_strings)
-
-
-
-
-
-    all_images_tag = '{{images}}' # into single_pattern_body
-    single_body = single_body.replace(all_images_tag,all_image_string)
-    # list of properties
-    main_text = ""
-    prop_list = obj.list_of_properties()
-    for prop in prop_list:
-        main_text += f'<p>{prop}</p>'
-    single_body = single_body.replace("{{main_text}}",main_text)
-    link_string = obj.make_dropbox_links_html()
-    single_body = single_body.replace("{{dropbox_pattern_link}}",link_string)
-    
-
-    return single_body
+    return final_body
 
 def make_multi_body_html(template_dir, found_objs):
+    print(f'executing make_multi_body')
     # there are two templates, one that has the body and container
     # the second has the template for each pattern
     # generate multiple of the mini template and insert them into the first outer template
@@ -409,6 +419,7 @@ def make_tail_html(template_dir):
     return tail
 
 def make_blank_body(template_dir):
+    print(f'executing make_blank_body')
     blank_body_path = os.path.join(template_dir,"blank_body.html")
     blank_body = read_template_html(blank_body_path)
     return blank_body

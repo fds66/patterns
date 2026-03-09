@@ -74,6 +74,10 @@ ul.topnav li a:hover {
   background-color: #dddddd;
   color: black;
 }
+.num-results p{
+  text-align: center;
+  font-size: 2rem;
+}
 
 .content-container{
   display: flex;
