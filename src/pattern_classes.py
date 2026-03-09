@@ -148,7 +148,7 @@ attributes:
         image_strings=[]
         for i in range(num_attach):
             image_filepath = os.path.join(batch_filepath,modified_strings[i])
-            image_strings.append(f'<img src = "{image_filepath}">')
+            image_strings.append(f'<img src="{image_filepath}">')
         return image_strings
         
     def make_batch_folder_name(self):
@@ -177,7 +177,7 @@ attributes:
 
 class Library:
      # name is text, keys is a list, attributes is a dictionary with key,value pairs
-    def __init__(self,input_filepath,keys,craft_type, obj_list, name):
+    def __init__(self,input_filepath,keys,craft_type, obj_list, name, basepath):
         
         self.input_filepath = input_filepath
         self.keys = keys
@@ -186,6 +186,7 @@ class Library:
         self.obj_list = obj_list
         self.name = name
         self.types = list({p.pattern_type for p in self.obj_list})
+        self.basepath = basepath
         
 
 

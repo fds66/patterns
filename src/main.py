@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 
 
 from input_processing import create_dictionarys_from_csv
@@ -10,6 +11,7 @@ from make_html import make_search_page, make_type_page, make_all_images_page, ma
 
 def main():
 
+    
     
     # setup the file paths and parameters -----------------------------------------------------------
     template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
@@ -60,9 +62,13 @@ def main():
     parser.add_argument("-s","--search_name", type = str, help = "the name of the pattern you are searching for")
     parser.add_argument("-t","--search_ptype", type = str, help = "the category of pattern you are searching for")
     parser.add_argument("-a","--all", action='store_true',help = "output summaries of all patterns")
+    parser.add_argument("-p","--basepath", type = str,help = "basepath for production")
     args = parser.parse_args()
 
-   
+    basepath = args.basepath
+    print (basepath)
+    if not basepath:
+        basepath = "/"
     # Now we can access csv_filepath and craft_type ----------------------------
     
     craft_type = args.craft_type
@@ -105,7 +111,7 @@ def main():
 
     # create library --------------------------------------------------------------
     
-    library = Library(filepath, keys, craft_type, pattern_objs, library_name)
+    library = Library(filepath, keys, craft_type, pattern_objs, library_name, basepath)
 
     # simple print outputs and html static pages ----------------------------
     

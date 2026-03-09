@@ -214,7 +214,16 @@ def make_html_file(template_dir, output_dir, library, found_objs, page_type, out
     if page_type == "home":
         full_html_string = full_html_string.replace('<body','<body class="home-page">')
 
+    #------------ addition for deploying to github. Will run from docs so need to change path from "/" to "/repo name/", gather it from the arguments to main
+    '''basepath = library.basepath
+    new_href_str = f'href="{basepath}'
+    full_html_string = full_html_string.replace('href="/',new_href_str)
     
+    new_src_str = f'src="{basepath}'
+    full_html_string = full_html_string.replace('src="/',new_src_str)
+
+    '''
+
     html_file_name = output_files[page_type]
     output_path = os.path.join(output_dir, html_file_name)
     result = write_html_file(output_path,full_html_string)

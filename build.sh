@@ -1,0 +1,1 @@
+python3 ./src/main.py knit ./inputs/Patterns_Selection_of_patterns_in_certain_batches2.csv -s "seaside set" -t "Jumper" -a -p "/patterns/"
