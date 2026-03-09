@@ -63,13 +63,13 @@ To set up and run this project, follow these steps:
 1. Clone the repository:
 
 ```
-git clone https://github.com/my github repository name
+git clone https://github.com/fds66/patterns
 ```
 
 1. Navigate to the project directory:
 
 ```
-cd know_nutrition_cli
+cd patterns
 ```
 
 1. Provide a csv file containing the fields header in the first line and the record of a pattern in each subsequent line. Ensure any images linked either have a full image directory listed in [main.py](http://main.py) or are stored locally in the image directory along with the html pages.
