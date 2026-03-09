@@ -13,7 +13,7 @@ def main():
     
     # setup the file paths and parameters -----------------------------------------------------------
     template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
-    output_dir = "/home/fds66/workspace/fds66/patterns/static/templates/test_outputs"
+    output_dir = "/home/fds66/workspace/fds66/patterns/docs"
     output_files={
         "text": "info.html",
         "single": "pattern_search.html",
@@ -24,7 +24,31 @@ def main():
     image_dir = "image/"
     library_name = "Knitting Patterns"
 
+    #copy style sheet to chosen output directory
+    stylesheet_path = "static/templates/test_outputs/global_style.css"
 
+    # check paths
+
+    if not os.path.isdir(output_dir):
+        raise Exception ("output directory path given is not a directory")
+    if not os.path.exists(stylesheet_path):
+        raise Exception ("stylesheet does not exist")
+    
+    #read current stylesheet
+    try:
+        with open(stylesheet_path,"r") as f:
+            content = f.read()
+    except Exception as e:
+        raise Exception (f"{stylesheet_path} cannot be read, error {e}")
+    
+    #write contents into output directory
+    copy_stylesheet_path = os.path.join(output_dir,"global_style.css")
+    try: 
+        with open(copy_stylesheet_path, 'w') as file:
+            file.write(content)
+            
+    except Exception as e:
+        raise Exception ("writing to the file failed")
 
     # Process commandline arguments so they are available ----------------------------------------------------
 
