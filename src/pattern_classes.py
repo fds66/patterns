@@ -41,6 +41,30 @@ class Pattern:
     def __repr__(self):
         return f"Pattern object({self.name})"
     
+    def attribute_summary(self):
+        raise Exception ("not implemented")
+    
+    def list_of_properties(self):
+        raise Exception ("not implemented")
+    
+    def images(self):
+        raise Exception ("not implemented")
+        
+    def make_image_strings(self):
+        raise Exception ("not implemented")
+
+    def make_batch_folder_name(self):
+        raise Exception ("not implemented")
+
+    def make_dropbox_links_html(self):
+        raise Exception ("not implemented")
+
+
+
+    
+
+
+    
 
 
 
@@ -50,12 +74,10 @@ class KnittingPattern(Pattern):
     def __init__(self,name,keys,attributes, image_dir="image/"):
         super().__init__(name,keys,attributes, image_dir)
         self.designer = attributes[keys[2]]
-        
         self.pattern_type = attributes[keys[3]]
         self.date_added = attributes[keys[4]]
         self.notes = attributes[keys[5]]
         self.num_attach = attributes[keys[7]]
-        
         self.attachments = attributes[keys[9]]
         self.attachment_batch = attributes[keys[10]]
         self.dropbox_link = attributes[keys[18]]
@@ -93,11 +115,9 @@ attributes:
 
 
     def attribute_summary(self):
-
         return f'{self.name} by {self.designer} has a type {self.pattern_type}, '
     
     def list_of_properties(self):
-         # This produces a set of properties that will be printed out
          prop_list = []
          prop_list.append(f"Designer: {self.designer}")
          pattern_type = self.pattern_type
@@ -105,18 +125,13 @@ attributes:
          prop_list.append(pattern_type)
          prop_list.append(self.notes)
          prop_list.append(f'number of attachments: {self.num_attach}')
-         #prop_list.append(f'{self.make_dropbox_links_html()}')
-         
          return prop_list
     
     def images(self):
-        
         return f'There are {self.num_attach} attachments stored in {self.attachment_batch}\nThe attachments are {self.attachments}'
     
     def make_image_strings(self):
-        #print(f"method raw is {self.attachments}")
         raw_strings = self.attachments.split(",")
-        #print(f"method raw after splitting {raw_strings}")
         modified_strings = []
         for raw_string in raw_strings:
             # remove all spaces and removed symbols so filenames match
@@ -131,13 +146,9 @@ attributes:
         batch_filepath = os.path.join(self.image_dir,batch)
         num_attach = int(self.num_attach)
         image_strings=[]
-
-               
         for i in range(num_attach):
-            
             image_filepath = os.path.join(batch_filepath,modified_strings[i])
             image_strings.append(f'<img src = "{image_filepath}">')
-        #print (f"method return image strings {image_strings}")   
         return image_strings
         
     def make_batch_folder_name(self):
@@ -146,18 +157,14 @@ attributes:
         return batch_folder_name
     
     def make_dropbox_links_html(self):
-        dropbox_link_string = self.dropbox_link
-        print (dropbox_link_string)
-        link_strings = dropbox_link_string.split()
-        print (link_strings)
+        dropbox_link_strings = self.dropbox_link
+        link_strings = dropbox_link_strings.split()
         return_string = ""
         counter = 1
         for link_string in link_strings:
-            
             link_string_html = f'<a href="{link_string}">Pattern Link {counter}</a>\n'
             counter += 1
             return_string += link_string_html
-            
         return return_string
     
     
