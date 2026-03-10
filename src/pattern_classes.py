@@ -177,7 +177,7 @@ attributes:
 
 class Library:
      # name is text, keys is a list, attributes is a dictionary with key,value pairs
-    def __init__(self,input_filepath,keys,craft_type, obj_list, name, basepath):
+    def __init__(self,input_filepath,keys,craft_type, obj_list, name):
         
         self.input_filepath = input_filepath
         self.keys = keys
@@ -186,7 +186,7 @@ class Library:
         self.obj_list = obj_list
         self.name = name
         self.types = list({p.pattern_type for p in self.obj_list})
-        self.basepath = basepath
+        
         
 
 
