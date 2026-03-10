@@ -15,8 +15,8 @@ def main():
     
     # setup the file paths and parameters -----------------------------------------------------------
     template_dir = "/home/fds66/workspace/fds66/patterns/static/templates/page_components"
-    output_dir = "/home/fds66/workspace/fds66/patterns/docs" # for final use and github
-    #output_dir = "static/templates/test_outputs" # for testing and working on css
+    #output_dir = "/home/fds66/workspace/fds66/patterns/docs" # for final use and github
+    output_dir = "static/templates/test_outputs" # for testing and working on css
     
     
     output_files={
