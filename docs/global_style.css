@@ -2,55 +2,28 @@
   box-sizing: border-box;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   
-  font-size: 16;
 }
 
+/* All pages except homepage that has a background image applied later */
 body {
   display:flex;
   flex-direction: column;
   margin: 0;
   padding: 0;
   padding-bottom: 50px;  
-  border-radius: 5px;
   
-}
-.home-page {
-  /* background-image: radial-gradient(lightblue,darkblue);*/
- /* background-image: url("image/AdobeStock_584539861.jpeg");*/
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
-    url("image/AdobeStock_584539861.jpeg");
   
-  background-position: center;
-  
-}
+  }
 
+/* All pages header*/
 header {
   background-color: #f1f1f1;
   padding: 10px;
   text-align: center;
-}
-main{
-  flex: 1;
-}
-.home-page-heading{
-  display: grid;
-  place-items: center;
-  
-  color: lightblue;
-  
-  text-align: center;
-  font-size: 2.5rem;
-  
-}
-.home-page-heading h2{
-  padding-top: 25vh;
+  font-size: 0.8rem;
 }
 
-/* Style the topnav */
+/* All pages topnav */
 ul.topnav {
   display: flex;
   list-style-type: none;
@@ -61,8 +34,6 @@ ul.topnav {
 ul.topnav li:first-child{
   margin-right:auto;
 }
-
-/* Style links in topnav */
 ul.topnav li a {
   display: block;
   color: #f1f1f1;
@@ -75,123 +46,197 @@ ul.topnav li a:hover {
   background-color: #dddddd;
   color: black;
 }
+
+/* All pages footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #f1f1f1;
+  padding: 8px;
+  text-align: center;
+  z-index: 1000;
+}
+
+
+/* Home page only, apply background image */
+.home-page {
+  /* background-image: radial-gradient(lightblue,darkblue);*/
+ /* background-image: url("image/AdobeStock_584539861.jpeg");*/
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url("image/AdobeStock_584539861.jpeg");
+  background-position: center;
+  }
+
+.home-page-heading{
+  display: grid;
+  place-items: center;
+  
+  color: lightblue;
+  padding-top: 25vh;
+  text-align: center;
+  font-size: 2.5rem;
+ }
+
+
+
+
+/* Pattern Search page */
 .num-results p{
   text-align: center;
-  font-size: 2rem;
+ 
+  font-size:clamp(1rem,1.5vw,1.2rem);
+  
+  
+  
 }
 
 .content-container{
   display: flex;
   flex-direction: column;
-  
   padding-bottom: 20px;
   text-align: center;
 }
 .content-container p{
-  font-size: 1.5rem;
-
+  font-size:clamp(1rem,1.5vw,1.2rem);
 }
 .content-container h2{
-  font-size: 3rem;
+  
+  font-size:clamp(1.2rem,2.5vw,1.8rem);
+ 
+  
+  
 }
 
-.result-summary {
-  text-align: center;
-}
 
+/* This is the display for multiple images used on pattern search, type search and "all" pages */
 .image-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
- 
-  
-  
   gap: 1em;
-  
-  
-  
-}
+  }
 .pattern {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  
+  justify-content: space-between;
+  align-items: center;
   overflow: hidden;
   text-align: center;
-  font-size: 1.5rem;
   
+  background-color: lightgray;
+  border: 2px solid darkgray;
+  border-radius: 10px;
+  filter: drop-shadow(6px 6px 8px grey);
   
+  }
+
+.image-wrapper{
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 .pattern img{
-  width: 100%;
-  height: auto;
-  
-  
- 
-  
+  max-width: 100%;
+  max-height: 100%;
   padding: 10px;
+}
+.info-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.info-wrapper p{
+  margin: 0;
+  font-size:clamp(1rem,1.5vw,1.2rem);
+}
+.info-wrapper a{
+  text-decoration: none;
+  color: rgb(83, 3, 80);
+  font-size:clamp(0.8rem,1.2vw,1rem);
+}
+
+
+/* type search  and "all" pages */
+.result-summary {
+  text-align: center;
+ 
+  font-size:clamp(1rem,1.5vw,1.2rem);
+
 }
 
 
 
-
-
-
-
+/* Info page */
 div.flex-container {
   
   display: flex;
   flex-direction: row;
-  
   justify-content: center;
-  
   gap: 10px;
   flex-wrap: wrap;
+  font-size: 1 rem;
+  font-size: 1.2vw;
 }
-
-.flex-container li,.flex-container p {
-  overflow-wrap:break-word;
-  word-break:break-word;
-  font-size:clamp(0.9rem,1.2vw,1.2rem);
-}
-
 div.flex-container > div {
-
-
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   background-color: lightgray;
   border: 2px solid darkgray;
+  border-radius: 10px;
+  filter: drop-shadow(6px 6px 8px grey);
   font-size: 1.2rem;
   min-width:0;
   margin-left: 10px;
+  
+}
+.flex-container li,.flex-container p {
+  overflow-wrap:break-word;
+  word-break:break-word;
+  font-size:clamp(0.9rem,1.2vw,1.2rem);
+}
+.flex-container p{
+    padding: 10px;
+    font-size:clamp(1rem,1.5vw,1.2rem);
+    text-align: center;
+}
+.flex-container h2{
+    
+    text-align: center;
+ 
+  font-size:clamp(1.2rem,2.5vw,1.8rem);
+
 }
 .sidebar {
   flex: 1 1 250px;
   max-height: 60vh;
 }
-
 .main-panel {
   flex: 2 1 400px;
 }
-.flex-container ol {
+.sidebar ol {
+  columns:1;
+  column-gap:30px;
   
-  max-height: 400px;
+  flex: 1;
+  padding-right: 10px;
+  max-height: 450px;
   overflow-y: auto;
 }
-.sidebar ol {
-  columns:2;
-  column-gap:30px;
-  font-size: 0.95rem;
-  flex: 1;
-  padding-right: 10px
-}
-.sidebarol::-webkit-scrollbar {
+.sidebar ol::-webkit-scrollbar {
   width:6px;
 }
 
-.sidebarol::-webkit-scrollbar-thumb {
+.sidebar ol::-webkit-scrollbar-thumb {
   background: #888;
   border-radius:3px;
 }
@@ -199,15 +244,7 @@ div.flex-container > div {
   break-inside: avoid;
 }
 
-.flex-container p{
-    padding: 10px;
-    font-size: 1.4rem;
-    text-align: center;
-}
-.flex-container h2{
-    
-    font-size: 2rem;
-}
+
 @media (max-width: 700px) {
 
   .flex-container {
@@ -243,22 +280,5 @@ div.flex-container > div {
 }
 
 
-/* Style the footer */
-footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #f1f1f1;
-  padding: 8px;
-  text-align: center;
-  z-index: 1000;
-  
-}
 
-/* Use media query and show the 3 columns vertically if screen width is less than 600px 
-@media screen and (max-width:600px) {
-  div.flex-container {
-    flex-direction: column;
-  }
-}*/
+
