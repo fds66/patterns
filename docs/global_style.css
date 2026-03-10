@@ -1,19 +1,37 @@
 * {
   box-sizing: border-box;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  
+  
   
 }
-
+.site-wrapper{
+  max-width: 1550px;
+  margin: 0 auto;
+  padding: 0 20px
+}
 /* All pages except homepage that has a background image applied later */
 body {
-  display:flex;
-  flex-direction: column;
   margin: 0;
-  padding: 0;
   padding-bottom: 50px;  
-  
-  
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
   }
+h2 {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+}
+p{
+  line-height:1.5;
+}
+.card{
+  background-color: lightgray;
+  border: 2px solid darkgray;
+  border-radius: 10px;
+  filter: drop-shadow(6px 6px 8px grey);
+}
+
+main {
+  width: 100%;
+}
 
 /* All pages header*/
 header {
@@ -52,6 +70,7 @@ footer {
   position: fixed;
   bottom: 0;
   left: 0;
+  /*margin-top: auto;*/
   width: 100%;
   background-color: #f1f1f1;
   padding: 8px;
@@ -64,16 +83,23 @@ footer {
 .home-page {
   /* background-image: radial-gradient(lightblue,darkblue);*/
  /* background-image: url("image/AdobeStock_584539861.jpeg");*/
+  
   background-repeat: no-repeat;
   background-attachment: fixed;
+  background-position: center;
+  position: relative;
   background-size: cover;
   background-image:
     linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
     url("image/AdobeStock_584539861.jpeg");
-  background-position: center;
+  
   }
+  
+
+
 
 .home-page-heading{
+  
   display: grid;
   place-items: center;
   
@@ -81,6 +107,8 @@ footer {
   padding-top: 25vh;
   text-align: center;
   font-size: 2.5rem;
+  
+  
  }
 
 
@@ -89,10 +117,6 @@ footer {
 /* Pattern Search page */
 .num-results p{
   text-align: center;
- 
-  font-size:clamp(1rem,1.5vw,1.2rem);
-  
-  
   
 }
 
@@ -102,9 +126,7 @@ footer {
   padding-bottom: 20px;
   text-align: center;
 }
-.content-container p{
-  font-size:clamp(1rem,1.5vw,1.2rem);
-}
+
 .content-container h2{
   
   font-size:clamp(1.2rem,2.5vw,1.8rem);
@@ -117,35 +139,35 @@ footer {
 /* This is the display for multiple images used on pattern search, type search and "all" pages */
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1em;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
   }
 .pattern {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
+  
   text-align: center;
-  
-  background-color: lightgray;
-  border: 2px solid darkgray;
-  border-radius: 10px;
-  filter: drop-shadow(6px 6px 8px grey);
-  
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
+.pattern:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
 
 .image-wrapper{
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  
+  display: grid;
+  place-items: center;
+  
 
 }
 .pattern img{
   max-width: 100%;
   max-height: 100%;
   padding: 10px;
+  object-fit: contain;
 }
 .info-wrapper{
   display: flex;
@@ -153,10 +175,7 @@ footer {
   align-items: center;
   gap: 5px;
 }
-.info-wrapper p{
-  margin: 0;
-  font-size:clamp(1rem,1.5vw,1.2rem);
-}
+
 .info-wrapper a{
   text-decoration: none;
   color: rgb(83, 3, 80);
@@ -168,7 +187,7 @@ footer {
 .result-summary {
   text-align: center;
  
-  font-size:clamp(1rem,1.5vw,1.2rem);
+ 
 
 }
 
@@ -190,16 +209,12 @@ div.flex-container > div {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: lightgray;
-  border: 2px solid darkgray;
-  border-radius: 10px;
-  filter: drop-shadow(6px 6px 8px grey);
   font-size: 1.2rem;
   min-width:0;
   margin-left: 10px;
   
 }
-.flex-container li,.flex-container p {
+.flex-container li {
   overflow-wrap:break-word;
   word-break:break-word;
   font-size:clamp(0.9rem,1.2vw,1.2rem);
@@ -224,22 +239,11 @@ div.flex-container > div {
   flex: 2 1 400px;
 }
 .sidebar ol {
-  columns:1;
-  column-gap:30px;
-  
-  flex: 1;
   padding-right: 10px;
-  max-height: 450px;
-  overflow-y: auto;
-}
-.sidebar ol::-webkit-scrollbar {
-  width:6px;
+  max-height: 60vh;
+  overflow: auto;
 }
 
-.sidebar ol::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius:3px;
-}
 .sidebar li{
   break-inside: avoid;
 }
@@ -265,12 +269,12 @@ div.flex-container > div {
   .sidebar li {
   break-inside:avoid;
 }
-   .flex-containerh2 {
+   .flex-container h2 {
     font-size:1.5rem;
   }
 
-  .flex-containerp,
-  .flex-containerli {
+  .flex-container p,
+  .flex-container li {
     font-size:1rem;
   }
   .sidebar ol {
